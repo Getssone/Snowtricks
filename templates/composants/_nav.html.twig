@@ -1,39 +1,30 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container px-5">
-		<a class="navbar-brand" href="index.html">Start Bootstrap</a>
+		<a class="navbar-brand" href="/">🏂</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a class="nav-link" href="index.html">Accueil</a>
+					<a class="nav-link" href="/">Accueil</a>
 				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tricks</a>
-					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-						<li>
-							<a class="dropdown-item" href="blog-home.html">Tous les Tricks</a>
-						</li>
+				{% if app.user %}
 
-						{% if user_role == 'admin' or user_role == 'isAuthentified' %}
-							<li>
-								<a class="dropdown-item" href="blog-post.html">Poster un Tricks</a>
-							</li>
-						{% endif %}
-					</ul>
-				</li>
-				{% if user_role == 'admin' or user_role == 'isAuthentified' %}
-					<li class="nav-item">
-						<a class="nav-link" href="disconnects.html">Déconnection</a>
+					<li>
+						<a class="nav-link" href="/article/new">Poster un Tricks</a>
 					</li>
 				{% endif %}
-				{% if user_role == 'anonymous' or user_role == '' or user_role == 'undefined' %}
+				{% if app.user %}
 					<li class="nav-item">
-						<a class="nav-link" href="sign-up.html">Inscription</a>
+						<a class="nav-link" href="/logout">Déconnection</a>
+					</li>
+				{% else %}
+					<li class="nav-item">
+						<a class="nav-link" href="/sign-in">Inscription</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="sign-in.html">Connexion</a>
+						<a class="nav-link" href="/login">Connexion</a>
 					</li>
 				{% endif %}
 			</ul>

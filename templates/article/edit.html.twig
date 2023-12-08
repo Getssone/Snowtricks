@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Article
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/form/form.css') }}" rel=" stylesheet"/>
+	<link href="{{ asset('css/pagesArrayBase/index.css') }}" rel=" stylesheet"/>
+{% endblock %}
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">Que voulez vous modifier ?</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4">sortez votre meilleur outils !</p>
+{% endblock %}
+{% block body %}
+	<section>
+		<h1>Edit Article</h1>
+
+		{{ include('article/_form.html.twig', {'button_label': 'Mise a jour'}) }}
+		{% if article.mainImageName %}{% endif %}
+		<div class="d-flex justify-content-center">
+			<button class="classText btn btn-secondary" type="button">
+				<a href="{{ path('app_article_index') }}">Retour à la list</a>
+			</button>
+			<button class="classIcon btn btn-info" type="button">
+				<a href="{{ path('app_article_index') }}">
+					<i class="fas fa-angle-double-left"></i>
+				</a>
+			</button>
+			<button class="classIcon btn btn-info" type="button">
+				<a href="{{ path('app_article_index') }}">
+					<i class="fas fa-angle-double-left"></i>
+				</a>
+				{{ include('article/_delete_form.html.twig') }}
+			</button>
+		</div>
+
+	</section>
+{% endblock %}

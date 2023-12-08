@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+{% if article.mainImageName %}
+	<div class='Info-Image'>
+		Fichier actuel :
+		<img src={{ article.mainImageName }} alt={{ article.mainImageName }}>
+
+	</div>
+{% endif %}
+{{ form_widget(form) }}
+<div class="text-secondary-emphasis">
+	Autheur :
+	{{ article.author.username}}</div>
+<button class=" classText btn btn-info">{{ button_label|default('Sauvegarder') }}</button>
+<button class="classIcon btn btn-info" type="button">
+	{% if button_label is defined %}
+		{{ button_label }}
+	{% else %}
+		<i class="fas fa-plus"></i>
+	{% endif %}
+</button>
+{{ form_end(form) }}

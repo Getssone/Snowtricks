@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Article
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/form/form.css') }}" rel=" stylesheet"/>
+	<link href="{{ asset('css/pagesArrayBase/index.css') }}" rel=" stylesheet"/>
+{% endblock %}
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">Quelle sera la nouvelle figure ?</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4">Trop impatient de la voir !</p>
+{% endblock %}
+{% block body %}
+	<section>
+		<h1>Créer un nouveux tricks</h1>
+
+		{{ include('article/_form.html.twig') }}
+
+		<button class="classText btn btn-secondary" type="button">
+			<a href="{{ path('app_article_index') }}">retour à la liste</a>
+		</button>
+	</section>
+{% endblock %}

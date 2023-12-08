@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article index
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/form/form.css') }}" rel=" stylesheet"/>
+	<link href="{{ asset('css/pagesArrayBase/index.css') }}" rel=" stylesheet"/>
+{% endblock %}
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">Tricks</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4">Que souhaitez vous apprendre !</p>
+{% endblock %}
+{% block body %}
+	<section>
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ label }}">
+					{{ message }}
+				</div>
+			{% endfor %}
+		{% endfor %}
+		<h1>Article index</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nom de l'article</th>
+					<th>Nom du lien</th>
+					<th>Description</th>
+					<th>Image</th>
+					<th>Mise a jour</th>
+					<th>Niveaux</th>
+					<th>Autheur</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for article in articles %}
+					<tr>
+						<td>{{ article.id }}</td>
+						<td>{{ article.name }}</td>
+						<td>{{ article.slug }}</td>
+						<td>{{ article.description }}</td>
+						<td><img class="object-fit-cover border rounded" src={{ article.mainImageName }} alt={{ article.name }}></td>
+						<td>{{ article.updateAt ? article.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+						<td>{{ article.categories }}</td>
+						<td>{{ article.author.username }}</td>
+
+						<td>
+							<button class=" classText btn btn-success">
+								<a href="{{ path('app_article_show', {'id': article.id}) }}">Visualiser</a>
+							</button>
+							<button class=" classText btn btn-warning">
+
+								<a href="{{ path('app_article_edit', {'id': article.id}) }}">Editer</a>
+							</button>
+							<button class=" classIcon btn btn-success">
+								<a href="{{ path('app_article_show', {'id': article.id}) }}">
+									<i class="far fa-eye"></i>
+								</a>
+
+							</button>
+							<button class=" classIcon btn btn-warning">
+								<a href="{{ path('app_article_edit', {'id': article.id}) }}">
+									<i class="far fa-edit"></i>
+								</a>
+							</button>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="7">Aucune donnée trouvé</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<button class=" classText btn btn-info">
+			<a href="{{ path('app_article_new') }}">
+				Nouveaux Tricks</a>
+		</button>
+		<button class=" classIcon btn btn-info">
+			<a href="{{ path('app_article_new') }}">
+				<i class="fas fa-plus"></i>
+			</a>
+		</button>
+	</section>
+{% endblock %}

@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -29,31 +30,31 @@ class Article
     private ?string $mainImageName = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
+    private ?\DateTimeImmutable $updateAt;
 
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'articles')]
-    private Collection $authors;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
+    #[ORM\JoinColumn(name: "author_id", referencedColumnName: "id")]
+    private ?User $author = null;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
-    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'articles')]
-    private Collection $categories;
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'articles')]
+    private ?Category $categories = null;
 
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Video::class)]
     private Collection $videos;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Image::class, orphanRemoval: true, fetch: 'EAGER')]
     private Collection $images;
 
 
     public function __construct()
     {
-        $this->authors = new ArrayCollection();
-        $this->categories = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->updateAt = new DateTimeImmutable('now');
         $this->videos = new ArrayCollection();
         $this->images = new ArrayCollection();
     }
@@ -62,30 +63,41 @@ class Article
     {
         return $this->id;
     }
+    private function generateSlug(?string $name): string
+    {
+        if ($name === null) {
+            // Gérer le cas où $name est null
+            // Retourner un slug par défaut ou générer un slug unique
+            return 'default-slug'; // Exemple de slug par défaut
+        }
+
+        return strtolower(str_replace(' ', '-', $name));
+    }
 
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
+        $this->setSlug($this->generateSlug($name));
 
         return $this;
     }
 
     public function getSlug(): ?string
     {
-        return $this->slug;
+        return $this->slug;;
     }
-
-    public function setSlug(string $slug): static
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
+
 
     public function getMainImageName(): ?string
     {
@@ -99,16 +111,16 @@ class Article
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeImmutable
+    public function getUpdateAt(): ?DateTimeImmutable
     {
         return $this->updateAt;
     }
 
-    public function setUpdateAt(\DateTimeImmutable $updateAt): static
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateTimestamps(): void
     {
-        $this->updateAt = $updateAt;
-
-        return $this;
+        $this->updateAt = new DateTimeImmutable('now');
     }
 
     public function getDescription(): ?string
@@ -123,51 +135,27 @@ class Article
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getAuthors(): Collection
+    public function getAuthor(): ?User
     {
-        return $this->authors;
+        return $this->author;
     }
 
-    public function addAuthor(User $author): static
+    public function setAuthor(?User $author): self
     {
-        if (!$this->authors->contains($author)) {
-            $this->authors->add($author);
-        }
-
+        $this->author = $author;
         return $this;
     }
 
-    public function removeAuthor(User $author): static
-    {
-        $this->authors->removeElement($author);
 
-        return $this;
-    }
 
-    /**
-     * @return Collection<int, categories>
-     */
-    public function getCategories(): Collection
+    public function getCategories(): ?Category
     {
         return $this->categories;
     }
 
-    public function addCategory(Category $category): static
+    public function setCategories(?Category $category): self
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        $this->categories->removeElement($category);
-
+        $this->categories = $category;
         return $this;
     }
 

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/form/form.css') }}" rel=" stylesheet"/>
+	<link href="{{ asset('css/pagesArrayBase/index.css') }}" rel=" stylesheet"/>
+{% endblock %}
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">{{ article.name }}</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4 text-truncate">{{ article.description }}</p>
+{% endblock %}
+{% block body %}
+	<section>
+		<h1>Article</h1>
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ article.id }}</td>
+				</tr>
+				<tr>
+					<th>Nom de l'article</th>
+					<td>{{ article.name }}</td>
+				</tr>
+				<tr>
+					<th>nom du lien</th>
+					<td>{{ article.slug }}</td>
+				</tr>
+				<tr>
+					<th>Description</th>
+					<td>{{ article.description }}</td>
+				</tr>
+				<tr>
+					<th>Image</th>
+					<td>{{ article.mainImageName }}</td>
+				</tr>
+				<tr>
+					<th>Categorie</th>
+					<td>{{ article.categories }}</td>
+				</tr>
+				<tr>
+					<th>Mise a jour</th>
+					<td>{{ article.updateAt ? article.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+	<div class="d-flex justify-content-center">
+		<button class="classText btn btn-secondary" type="button">
+			<a href="{{ path('app_article_index') }}">Retour à la list</a>
+		</button>
+		<button class="classText btn btn-warning" type="button">
+			<a href="{{ path('app_article_edit', {'id': article.id}) }}">Editer</a>
+		</button>
+		<button class="classIcon btn btn-info" type="button">
+			<a href="{{ path('app_article_index') }}">
+				<i class="fas fa-angle-double-left"></i>
+			</a>
+		</button>
+		<button class="classIcon btn btn-warning" type="button">
+			<a href="{{ path('app_article_edit', {'id': article.id}) }}">
+				<i class="far fa-edit"></i>
+			</a>
+		</button>
+	</div>
+
+
+	{{ include('article/_delete_form.html.twig') }}
+{% endblock %}

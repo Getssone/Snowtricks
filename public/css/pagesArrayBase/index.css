@@ -1,0 +1,12 @@
+.table {
+  color: whitesmoke;
+}
+.table td {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.container_action {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}/*# sourceMappingURL=index.css.map */
