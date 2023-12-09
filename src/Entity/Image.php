@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image
@@ -61,9 +62,11 @@ class Image
         return $this->file;
     }
 
-    public function setFile(string $file): static
+    public function setFile(string $file): self
     {
         $this->file = $file;
+        $updateNow = new DateTimeImmutable('now');
+        $this->setUpdateAt($updateNow);
 
         return $this;
     }
@@ -73,7 +76,7 @@ class Image
         return $this->article;
     }
 
-    public function setArticle(?Article $article): static
+    public function setArticle(?Article $article): self
     {
         $this->article = $article;
 

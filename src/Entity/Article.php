@@ -47,7 +47,7 @@ class Article
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Video::class)]
     private Collection $videos;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Image::class, orphanRemoval: true, fetch: 'EAGER')]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
 
@@ -227,7 +227,7 @@ class Article
         return $this->images;
     }
 
-    public function addImage(Image $image): static
+    public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
             $this->images->add($image);

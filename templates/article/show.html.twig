@@ -33,11 +33,18 @@
 				</tr>
 				<tr>
 					<th>Description</th>
-					<td>{{ article.description }}</td>
+					<td class="text-truncate" style="max-width: 200px;">{{ article.description }}</td>
 				</tr>
 				<tr>
 					<th>Image</th>
 					<td>{{ article.mainImageName }}</td>
+					{% if source is same as('string') %}
+						<img src="{{ article.mainImageName }}" alt="Image depuis une URL">
+					{% elseif source is same as('asset') %}
+						<img src="{{ asset(assets/article.mainImageName) }}" alt="Image depuis le dossier asset">
+					{% else %}
+						<p>Source non reconnue</p>
+					{% endif %}
 				</tr>
 				<tr>
 					<th>Categorie</th>

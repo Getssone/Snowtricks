@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Image;
 use App\Entity\Article;
 use App\Form\ImageType;
 use App\Entity\Category;
@@ -22,11 +23,15 @@ class ArticleType extends AbstractType
         $builder
             ->add('name', TextType::class, ['label' => 'Nom'])
             ->add('description', TextareaType::class, ['label' => 'Description'])
-            ->add('mainImageName', FileType::class, ['label' => 'Image Principal'])
+            ->add('mainImageName', FileType::class, [
+                'label' => 'Image Principal',
+                'multiple' => false
+            ])
             // ->add('images', ImageType::class, ['label' => 'Images', 'data_class' => null])
-            ->add('images', CollectionType::class, [
-                'label' => 'Imagess',
-                'entry_type' => ImageType::class,
+            ->add('images', FileType::class, [
+                'multiple' => true,
+                'mapped' => false,
+                'data_class' => null,
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,

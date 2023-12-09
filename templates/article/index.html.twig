@@ -44,8 +44,20 @@
 						<td>{{ article.id }}</td>
 						<td>{{ article.name }}</td>
 						<td>{{ article.slug }}</td>
-						<td>{{ article.description }}</td>
-						<td><img class="object-fit-cover border rounded" src={{ article.mainImageName }} alt={{ article.name }}></td>
+						<td class="text-truncate" style="max-width: 200px;">{{ article.description }}</td>
+						{# <td><img class="object-fit-cover border rounded" src={{ article.mainImageName }} alt={{ article.name }}></td> #}
+						{# <pre>
+																																																																																																																									{{ dump(article.mainImageName) }}
+																																																																																																																								</pre> #}
+						<td>
+							{% if article.mainImageName starts with 'http' %}
+								<img src="{{ article.mainImageName }}" alt="Image depuis une URL">
+							{% elseif asset('uploads/images/' ~ article.mainImageName) is not null %}
+								<img src="{{ asset('uploads/images/' ~ article.mainImageName) }}" alt="Image depuis le dossier asset">
+							{% else %}
+								<p>Source non reconnue</p>
+							{% endif %}
+						</td>
 						<td>{{ article.updateAt ? article.updateAt|date('Y-m-d H:i:s') : '' }}</td>
 						<td>{{ article.categories }}</td>
 						<td>{{ article.author.username }}</td>
