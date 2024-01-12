@@ -9,5 +9,6 @@
     "titleBar.inactiveBackground": "#e3e3e399",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.color": "#FDFDFD"
+  "peacock.color": "#FDFDFD",
+  "cSpell.words": ["Csrf", "Hasher"]
 }

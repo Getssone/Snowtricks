@@ -45,6 +45,44 @@ class ArticleController extends AbstractController
         }
         return false;
     }
+    function verificationForm($form, Article $article)
+    {
+        $uploadedImages = $form->get('images')->getData();
+        // Gestion des téléchargements des images $uploadedImages=$form->get('images')->getData();
+        foreach ($uploadedImages as $uploadedImage) {
+            // Obtenez le nom du fichier d'origine
+            $originalFilename = $uploadedImage->getClientOriginalName();
+
+            // Générez un nom de fichier unique pour éviter les conflits
+            $newFilename = uniqid() . '-' . $originalFilename;
+
+            // Vérifiez si l'image existe déjà pour cet article
+            if (!$this->imageAlreadyExists($article, $newFilename)) {
+                $image = new Image();
+
+                // Déplacez le fichier téléchargé vers un répertoire de stockage
+                try {
+                    $uploadedImage->move($this->getParameter('upload_directory'), $newFilename);
+                } catch (FileException $e) {
+                    $this->addFlash('warning', "le déplacement du fichier échoue.");
+                }
+
+                // Enregistrez les informations de l'image dans l'entité Image
+                $image->setName($originalFilename);
+                $image->setFile($newFilename);
+
+                // Ajoutez l'image à l'article
+                $article->addImage($image);
+            }
+        }
+
+
+        // Gestion des téléchargements vidéos
+        $videos = $form->get('videos')->getData();
+        foreach ($videos as $video) {
+            $video->setArticle($article);
+        }
+    }
 
 
     #[Route('/', name: 'app_article_index', methods: ['GET'])]
@@ -76,66 +114,8 @@ class ArticleController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Gestion des téléchargements de l'image principal
-            $uploadedMainImage = $form->get('mainImageName')->getData();
-            if ($uploadedMainImage !== null) {
-                // Obtenez le nom du fichier d'origine
-                $originalMainImageFilename = $uploadedMainImage->getClientOriginalName();
 
-                if (!$this->mainImageAlreadyExists($article, $originalMainImageFilename)) {
-                    // Déplacez le fichier téléchargé vers un répertoire de stockage
-                    try {
-                        $uploadedMainImage->move($this->getParameter('upload_directory'), $originalMainImageFilename);
-                    } catch (FileException $e) {
-                        // Gestion des erreurs si le déplacement du fichier échoue
-                        print($e);
-                    }
-
-                    // Affectez le nom du fichier généré à la propriété "mainImageName" de l'entité Article
-                    $article->setMainImageName($originalMainImageFilename);
-                }
-            } else {
-                // Aucun fichier n'est téléchargé, donc conservez l'image principale existante
-                $defaultImagePath = 'composition-point-interrogation-paysage-naturel_23-2150525235.jpg';
-                $article->setMainImageName($defaultImagePath);
-            }
-
-
-
-            // Gestion des téléchargements des images 
-            $uploadedImages = $form->get('images')->getData();
-            foreach ($uploadedImages as $uploadedImage) {
-                // Obtenez le nom du fichier d'origine
-                $originalFilename = $uploadedImage->getClientOriginalName();
-
-                // Générez un nom de fichier unique pour éviter les conflits
-                $newFilename = uniqid() . '-' . $originalFilename;
-
-                // Vérifiez si l'image existe déjà pour cet article
-                if (!$this->imageAlreadyExists($article, $newFilename)) {
-                    $image = new Image();
-
-                    // Déplacez le fichier téléchargé vers un répertoire de stockage
-                    try {
-                        $uploadedImage->move($this->getParameter('upload_directory'), $newFilename);
-                    } catch (FileException $e) {
-                        // Gestion des erreurs si le déplacement du fichier échoue
-                        print($e);
-                    }
-
-                    // Enregistrez les informations de l'image dans l'entité Image
-                    $image->setName($originalFilename);
-                    $image->setFile($newFilename);
-
-                    // Ajoutez l'image à l'article
-                    $article->addImage($image);
-                }
-            }
-
-            // Gestion des téléchargements vidéos 
-            $videos = $form->get('videos')->getData();
-            foreach ($videos as $video) {
-                $video->setArticle($article);
-            }
+            $this->verificationForm($form, $article);
 
             // Gestion de l'enregistrement dans la Bdd 
             $entityManager->persist($article);
@@ -260,8 +240,7 @@ class ArticleController extends AbstractController
                         try {
                             $uploadedMainImage->move($this->getParameter('upload_directory'), $originalMainImageFilename);
                         } catch (FileException $e) {
-                            // Gestion des erreurs si le déplacement du fichier échoue
-                            print($e);
+                            $this->addFlash('warning', "le déplacement du fichier échoue.");
                         }
 
                         // Affectez le nom du fichier généré à la propriété "mainImageName" de l'entité Article
@@ -275,45 +254,8 @@ class ArticleController extends AbstractController
 
 
 
-
-                // Gestion des téléchargements des images 
-                $uploadedImages = $form->get('images')->getData();
-                foreach ($uploadedImages as $uploadedImage) {
-                    // Obtenez le nom du fichier d'origine
-                    $originalFilename = $uploadedImage->getClientOriginalName();
-
-                    // Générez un nom de fichier unique pour éviter les conflits
-                    $newFilename = uniqid() . '-' . $originalFilename;
-
-                    // Vérifiez si l'image existe déjà pour cet article
-                    if (!$this->imageAlreadyExists($article, $newFilename)) {
-                        $image = new Image();
-
-                        // Déplacez le fichier téléchargé vers un répertoire de stockage
-                        try {
-                            $uploadedImage->move($this->getParameter('upload_directory'), $newFilename);
-                        } catch (FileException $e) {
-                            // Gestion des erreurs si le déplacement du fichier échoue
-                            print($e);
-                        }
-
-                        // Enregistrez les informations de l'image dans l'entité Image
-                        $image->setName($originalFilename);
-                        $image->setFile($newFilename);
-
-                        // Ajoutez l'image à l'article
-                        $article->addImage($image);
-                    }
-                }
-
-
-                // Gestion des téléchargements vidéos 
-                $videos = $form->get('videos')->getData();
-                foreach ($videos as $video) {
-                    $video->setArticle($article);
-                }
+                $this->verificationForm($form, $article);
                 $article->updateTimestamps();
-
                 // Gestion de l'enregistrement dans la Bdd 
                 $entityManager->persist($article);
                 $entityManager->flush();
