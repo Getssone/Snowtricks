@@ -18,9 +18,9 @@
 		<h1>Connexion</h1>
 		<form method="post">
 			<div>
-				{% if error_message %}
-					<div class="alert alert-danger" role="alert">{{ error_message }}</div>
-				{% endif %}
+				{% for errorMessage in app.flashes('error') %}
+					<div class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+				{% endfor %}
 
 				{% if app.user %}
 					<div class="mb-3">

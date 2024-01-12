@@ -22,14 +22,14 @@ class LogSecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         // Personnalisez le message d'erreur ici
-        $errorMessage = 'Le nom du profil ou le mot de passe est incorrect. Veuillez réessayer.';
 
+        $errorMessage = 'Le nom du profil ou le mot de passe est incorrect. Veuillez réessayer.';
         if ($error) {
             // Vous pouvez également logger l'erreur ici si nécessaire
             $this->addFlash('error', $errorMessage);
         }
 
-        return $this->render('pages/login.html.twig', ['last_username' => $lastUsername, 'error_message' => $errorMessage,]);
+        return $this->render('pages/login.html.twig', ['last_username' => $lastUsername]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
