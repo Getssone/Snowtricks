@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Article
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/form/form.css') }}" rel=" stylesheet"/>
+	<link href="{{ asset('css/pagesArrayBase/index.css') }}" rel=" stylesheet"/>
+{% endblock %}
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">Quelle sera la nouvelle figure ?</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4">Trop impatient de la voir !</p>
+{% endblock %}
+{% block body %}
+	<section>
+		<h1>Créer un nouveux tricks</h1>
+
+		{{ include('article/_form.html.twig') }}
+		{# <button type="button" id="add-link-button">Ajouter un lien</button> #}
+
+		<button class="classText btn btn-secondary" type="button">
+			<a href="{{ path('app_article_index') }}">retour à la liste</a>
+		</button>
+	</section>
+{% endblock %}
+{% block scripts %}
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+const container = document.getElementById('article_videos');
+
+// Fonction pour ajouter un nouveau champ
+function addLinkField() { // Créer un nouvel index unique
+const index = container.querySelectorAll('input').length;
+
+let newField = container.getAttribute('data-prototype');
+newField = newField.replace(/__name__label__/g, `lien ${
+index + 1
+}`);
+newField = newField.replace(/__name__/g, index + 1);
+newField = newField.replace(/id="article_videos___name__/g, `id="article_videos_${index}`);
+
+// Utilisez insertAdjacentHTML pour ajouter le champ sans remplacer le contenu existant
+container.insertAdjacentHTML('beforeend', newField);
+}
+document.getElementById('add-link-button').addEventListener('click', addLinkField);
+
+});
+	</script>
+{% endblock %}

@@ -1,0 +1,79 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+body section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem;
+}
+body section .Info-Image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  margin: 1rem;
+  color: black;
+  font-weight: Bold;
+}
+body section h1 {
+  margin: 1rem;
+}
+body section form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  width: 50%;
+  max-width: 90rem;
+}
+@media (max-width: 500px) {
+  body section form {
+    width: 90%;
+  }
+}
+body section form label {
+  font-weight: bold;
+}
+body section form input[type=text],
+body section form input[type=password],
+body section form input[type=email] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+body section form input[type=checkbox] {
+  margin-left: 5px;
+}
+body section form .alerte-danger ul {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+body section form button[type=submit] {
+  background-color: #17a2b8;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+body section form button[type=submit]:hover {
+  background-color: #138496;
+}
+body section form div {
+  margin: 1rem;
+}/*# sourceMappingURL=form.css.map */

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Video
+{% endblock %}
+
+{% block body %}
+	<h1>Create new Video</h1>
+
+	{{ include('video/_form.html.twig') }}
+
+	<button class="classText btn btn-info" type="button">
+		<a href="{{ path('app_home') }}">
+			<i class="fas fa-angle-double-left"></i>
+		</a>
+	</button>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit Video
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/ShowEditArticle/showEditArticle.css') }}" rel=" stylesheet"/>
+{% endblock %}
+
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">Edit</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4">Video !</p>
+
+{% endblock %}
+
+{% block image %}
+	{% set videoId = video.link|split('=')|last %}
+	<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{% endblock %}
+{% block body %}
+
+	{{ include('video/_form.html.twig', {'button_label': 'Update'}) }}
+	<div class="d-flex">
+
+		<button class="classText btn btn-info" type="button">
+			<a href="{{ path('app_home') }}">
+				<i class="fas fa-angle-double-left"></i>
+			</a>
+		</button>
+		<button class="classIcon btn btn-info" type="button">
+			<a href="{{ path('app_home') }}">
+				<i class="fas fa-angle-double-left"></i>
+			</a>
+		</button>
+
+		{{ include('video/_delete_form.html.twig') }}
+	</div>
+{% endblock %}

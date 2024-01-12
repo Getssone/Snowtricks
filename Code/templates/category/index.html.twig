@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index des catégories
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/form/form.css') }}" rel=" stylesheet"/>
+	<link href="{{ asset('css/pagesArrayBase/index.css') }}" rel=" stylesheet"/>
+{% endblock %}
+
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">Catégorisons</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4">Pour mieux si retrouver !</p>
+{% endblock %}
+{% block body %}
+	<section>
+		<h1>Les catégories</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nom</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for category in categories %}
+					<tr>
+						<td>{{ category.id }}</td>
+						<td>{{ category.name }}</td>
+						<td>
+							<div class="container_action">
+
+
+								<button class=" classText btn btn-success">
+									<a href=" {{ path('app_category_show', {'id': category.id} ) }}">Visualiser</a>
+								</button>
+								<button class=" classText btn btn-warning">
+									<a href=" {{ path('app_category_show', {'id': category.id} ) }}">Editer</a>
+								</button>
+								<button class=" classText btn btn-danger">
+									<a href=" {{ path('app_category_delete', {'id': category.id} ) }}">Supprimer</a>
+								</button>
+								<button class=" classIcon btn btn-success">
+									<a href="{{ path('app_category_show', {'id': category.id}) }}">
+										<i class="far fa-eye"></i>
+									</a>
+								</button>
+								<button class=" classIcon btn btn-warning">
+									<a href="{{ path('app_category_edit', {'id': category.id}) }}">
+										<i class="far fa-edit"></i>
+									</a>
+								</button>
+								<button class=" classIcon btn btn-danger">
+									<a href=" {{ path('app_category_delete', {'id': category.id} ) }}">
+										<i class="far fa-trash-alt"></i>
+									</a>
+								</button>
+							</td>
+						</td>
+					</tr>
+				</div>
+			</tbody>
+		</td>
+	</tr>
+{% else %}
+	<tr>
+		<td colspan="3">aucun enregistrement n'a été trouvé</td>
+	</tr>
+{% endfor %}</tbody></table><button class=" classText btn btn-info"><a href="{{ path('app_category_new') }}">
+Nouvelle Catégorie</a></button><button class=" classIcon btn btn-info"><a href="{{ path('app_category_new') }}">
+<i class="fas fa-plus"></i></a></button></section>{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/form/form.css') }}" rel=" stylesheet"/>
+{% endblock %}
+
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">Rejoignez nous</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4">Enregistrer vous et partagez vos meilleurs Tricks !</p>
+{% endblock %}
+{% block body %}
+	<section>
+		<h1>Inscription</h1>
+		{% for flash_error in app.flashes('verify_email_error') %}
+			<div class=" alert alert-danger" role=" alert">{{ flash_error }}</div>
+		{% endfor %}
+		{{ form_errors(registrationForm) }}{{ form_start(registrationForm) }}<div>{{ form_row(registrationForm.email) }}</div>
+		<div>{{ form_row(registrationForm.username, {
+            label: 'profil'
+        }) }}</div>
+		<div>{{ form_row(registrationForm.plainPassword, {
+            label: 'mot de passe'
+        }) }}</div>
+		<div>
+			<p>{{ form_row(registrationForm.agreeTerms, {
+            label: 'En accord avec les CGU'
+        }) }}</p>
+		</div>
+		<button type="submit" class="btn btn-outline-info btn-lg px-4 me-sm-3">Enregistrement</button>
+		{{ form_end(registrationForm) }}
+	</section>
+{% endblock %}

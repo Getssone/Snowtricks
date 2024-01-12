@@ -1,0 +1,183 @@
+:root {
+  --color-bg: #2f4f4f;
+  --color-article-bg: hsl(203, 99%, 9%);
+  --color-neon: rgb(0, 162, 255);
+}
+
+body {
+  position: relative;
+  z-index: -2;
+  background-color: rgb(33, 37, 41);
+  margin-bottom: 4rem;
+}
+@media screen and (max-width: 780px) {
+  body {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+body nav {
+  flex-wrap: nowrap !important;
+}
+body nav ul {
+  display: flex;
+  flex-direction: row !important;
+  gap: 3rem;
+  width: 100%;
+  justify-content: flex-end;
+}
+@media screen and (max-width: 780px) {
+  body nav ul {
+    display: flex;
+    justify-content: center;
+  }
+}
+@media screen and (max-width: 780px) {
+  body nav {
+    z-index: 23;
+    width: 100vw;
+    position: fixed !important;
+    bottom: 0rem;
+    left: 0rem;
+    justify-content: center;
+  }
+}
+
+header {
+  position: relative;
+  max-width: 100vw;
+}
+
+section {
+  position: relative;
+}
+section .seeArrow {
+  z-index: 1;
+  left: 92.3%;
+  bottom: 10%;
+  border: 3px solid darkgray;
+  background: fixed whitesmoke;
+}
+section .seeArrow.up {
+  position: sticky;
+}
+@media screen and (max-width: 780px) {
+  section .seeArrow.up {
+    display: none;
+  }
+}
+
+h1,
+h2 {
+  color: whitesmoke;
+}
+
+p {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+iframe {
+  position: relative;
+  max-height: 10rem;
+  margin: 1rem;
+  height: 100%;
+  width: 18rem;
+}
+
+section {
+  background-color: var(--color-bg);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+hr {
+  color: whitesmoke;
+}
+
+.hr_black {
+  color: black;
+}
+
+label,
+input {
+  z-index: 1;
+  position: relative;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+button {
+  position: relative;
+  z-index: 1;
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: auto;
+  height: auto;
+  margin: 1rem;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+}
+button a {
+  color: white;
+}
+
+.classText {
+  color: white;
+  display: flex;
+}
+
+.classIcon {
+  display: none;
+  color: white;
+}
+
+.card {
+  max-width: 28rem;
+  width: 100%;
+  min-width: 10rem;
+}
+
+img {
+  max-height: 10rem;
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.card p {
+  color: var(--color-bg);
+  font-weight: 300;
+}
+.card .card-footer img {
+  max-width: 7rem;
+  max-height: 7rem;
+  min-width: 7rem;
+  min-height: 7rem;
+  width: 100%;
+}
+
+form {
+  padding: 1rem;
+}
+form .btn-danger {
+  padding: 0.7rem;
+}
+
+@media screen and (max-width: 780px) {
+  .classText {
+    display: none;
+  }
+  .classIcon {
+    display: flex;
+  }
+}/*# sourceMappingURL=base.css.map */

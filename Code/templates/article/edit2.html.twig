@@ -1,0 +1,205 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Article
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/ShowEditArticle/showEditArticle.css') }}" rel=" stylesheet"/>
+	<link href="{{ asset('css/pagesArrayBase/index.css') }}" rel=" stylesheet"/>
+{% endblock %}
+{% block header %}
+	{% block titleHeader %}{% endblock %}
+	{% block subtitleHeader %}{% endblock %}
+{% endblock %}
+{% block body %}
+	<section>
+
+		<section class="py-5">
+			<div class="container px-5 my-5 py-5 ">
+				<div class="row gx-5 d-flex align-items-center justify-content-center">
+					<div class="col-lg-9">
+						<article>
+							<!-- Preview image figure-->
+							<figure class="mb-4">
+								{% if article.mainImageName starts with 'http' %}
+									<img src="{{ article.mainImageName }}" alt="Image depuis une URL">
+								{% elseif asset('uploads/images/' ~ article.mainImageName) is not null %}
+									<img src="{{ asset('uploads/images/' ~ article.mainImageName) }}" alt="Image depuis le dossier asset">
+								{% else %}
+									<p>
+										non reconnue</p>
+								{% endif %}
+							</figure>
+
+
+							<div class="container-images">
+
+
+								{% if article.images is not empty %}
+									{% for image in article.images %}
+										<div class="container_edition_images">
+											{% if image.file starts with 'http' %}
+												<img src="{{ image.file }}" alt="Image depuis une URL">
+											{% else %}
+												<img src="{{ asset('uploads/images/' ~ image.file) }}" alt="Image depuis le dossier asset">
+											{% endif %}
+											<div class="container_edition_btn">
+												<button class=" classText btn btn-warning">
+													<a href="{{ path('app_image_edit', {'id': image.id}) }}">
+														<i class="far fa-edit"></i>
+													</a>
+
+												</button>
+												<button class=" classIcon btn btn-warning">
+													<a href="{{ path('app_image_edit', {'id': image.id}) }}">
+														<i class="far fa-edit"></i>
+													</a>
+
+												</button>
+												{{ include('image/_delete_form.html.twig') }}
+											</div>
+
+
+										</div>
+									{% endfor %}
+
+								{% endif %}
+
+								{% if article.videos is not empty %}
+									{% for video in article.videos %}
+										<div class="container_edition_images">
+											{% set videoId = video.link|split('=')|last %}
+											<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+											<div class="container_edition_btn">
+												<button class=" classText btn btn-warning">
+													<a href="{{ path('app_video_edit', {'id': video.id}) }}">
+														<i class="far fa-edit"></i>
+													</a>
+
+												</button>
+												<button class=" classIcon btn btn-warning">
+													<a href="{{ path('app_video_edit', {'id': video.id}) }}">
+														<i class="far fa-edit"></i>
+													</a>
+
+												</button>
+												{{ include('video/_delete_form.html.twig') }}
+											</div>
+
+
+										</div>
+									{% endfor %}
+
+								{% endif %}
+
+
+							</div>
+							<button id="toggle-images" class="button_for_images_edit btn btn-info">Afficher les Images</button>
+							<div class="info">
+								<form method="post" action="{{ path('app_article_edit', {'slug': article.slug}) }}" enctype="multipart/form-data">
+
+									<section class="mainImage">
+										<p class="fs-5 mb-4">{{ form_label(form.mainImageName) }}
+											{{ form_widget(form.mainImageName) }}</p>
+									</section>
+									<p class="fs-5 mb-4">{{ form_label(form.images) }}
+										{{ form_widget(form.images) }}</p>
+									<p class="fs-5 mb-4">{{ form_label(form.videos) }}
+										{{ form_widget(form.videos) }}</p>
+									<button type="button" class="btn btn-dark" id="add-link-button">Ajouter un lien</button>
+									<!-- Post header-->
+									<header
+										class="d-flex justify-content-center align-items-center mb-4 ">
+										<!-- Post title-->
+										<h1 class="fw-bolder mb-1">{{ form_label(form.name) }}
+											{{ form_widget(form.name) }}</h1>
+									</header>
+									<!-- Post description-->
+									<section class="mb-5 description">
+										<p class="fs-5 mb-4">{{ form_label(form.description) }}
+											{{ form_widget(form.description) }}</p>
+									</section>
+
+
+									<section
+										class="metaContentAndBadge d-flex gap-5 flex-wrap">
+										<!-- Post meta description-->
+										<div class="container_createdAt">
+											<p class="metaContent text-light fst-italic mb-2">Création de l'article</p>
+											<div class="metaContent text-muted fst-italic mb-2">{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</div>
+										</div>
+										<!-- Post categories-->
+										<div class="container_Info_CategorieAndDate">
+											<p class="metaContent text-light fst-italic mb-2">
+												<a class="badge bg-secondary text-decoration-none link-light d-flex align-items-center" href="#!">{{ form_label(form.categories) }}
+												</p>
+												{{ form_widget(form.categories) }}
+											</p>
+										</a>
+									</div>
+									<!-- Post meta desciption Maj-->
+									<div class="container_createdAt">
+										<p class="metaContent text-light fst-italic mb-2">Mise à Jour</p>
+										<div class="metaContent text-muted fst-italic mb-2">Automatique</div>
+									</div>
+								</section>
+								<div class='container_button_editArticle d-flex align-items-center'>
+
+
+									<button class=" classText btn btn-info" type="submit">{{ button_label|default('<i class="fas fa-save"></i>')|raw }}</button>
+									<button class=" classIcon btn btn-info" type="submit">{{ button_label|default('<i class="fas fa-save"></i>')|raw }}</button>
+								</div>
+							</div>
+
+						</form>
+						<div class='container_button_deleteArticle d-flex align-items-center'>
+							{{ include('article/_delete_form.html.twig') }}
+						</div>
+					</article>
+				</div>
+			</div>
+
+		</section>
+	</section>
+{% endblock %}
+{% block scripts %}
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+const existingLinks = {{ article.videos|map(video => video.link)|json_encode|raw }};
+const container = document.getElementById('article_videos');
+
+function addLinkField() {
+const index = container.querySelectorAll('input').length;
+
+let newField = container.getAttribute('data-prototype');
+newField = newField.replace(/__name__label__/g, `Lien ${
+index + 1
+}`);
+newField = newField.replace(/__name__/g, index + 1);
+newField = newField.replace(/id="article_videos___name__/g, `id="article_videos_${index}`);
+
+// Vérifiez si le lien existe déjà
+if (! existingLinks.includes(newField)) {
+container.insertAdjacentHTML('beforeend', newField);
+}
+}
+
+document.getElementById('add-link-button').addEventListener('click', addLinkField);
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+var button = document.getElementById('toggle-images');
+var imagesContainer = document.querySelector('.container-images');
+
+button.addEventListener('click', function () {
+if (imagesContainer.style.display === 'none' || imagesContainer.style.display === '') {
+imagesContainer.style.display = 'flex';
+button.textContent = 'Cacher les Images';
+} else {
+imagesContainer.style.display = 'none';
+button.textContent = 'Afficher les Images';
+}
+});
+});
+	</script>
+{% endblock %}

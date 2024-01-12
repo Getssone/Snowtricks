@@ -1,0 +1,194 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/ShowEditArticle/showEditArticle.css') }}" rel=" stylesheet"/>
+	<link href="{{ asset('css/pagesArrayBase/index.css') }}" rel=" stylesheet"/>
+{% endblock %}
+{% block header %}
+	{% block titleHeader %}{% endblock %}
+	{% block subtitleHeader %}{% endblock %}
+{% endblock %}
+{% block body %}
+	<section>
+		<section class="py-5">
+			<div class="container px-5 my-5 py-5 ">
+				<div class="row gx-5 d-flex align-items-center justify-content-center">
+					<div
+						class="col-lg-9">
+						<!-- Post content-->
+						<article>
+							<!-- Preview image figure-->
+							<figure class="mb-4">
+								{% if article.mainImageName starts with 'http' %}
+									<img src="{{ article.mainImageName }}" alt="Image depuis une URL">
+								{% elseif asset('uploads/images/' ~ article.mainImageName) is not null %}
+									<img src="{{ asset('uploads/images/' ~ article.mainImageName) }}" alt="Image depuis le dossier asset">
+								{% else %}
+									<p>
+										non reconnue</p>
+								{% endif %}
+							</figure>
+
+							<div class="container-images">
+								{% if article.images is not empty %}
+									{% for image in article.images %}
+										{% if image.file starts with 'http' %}
+											<img src="{{ image.file }}" alt="Image depuis une URL">
+										{% else %}
+											<img src="{{ asset('uploads/images/' ~ image.file) }}" alt="Image depuis le dossier asset">
+										{% endif %}
+									{% endfor %}
+
+								{% endif %}
+
+								{% if article.videos is not empty %}
+									{% for video in article.videos %}
+										{% set videoId = video.link|split('=')|last %}
+										<iframe width="560" height="315" src="https://www.youtube.com/embed/{{ videoId }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									{% endfor %}
+									{% else %}
+
+								{% endif %}
+							</div>
+							<div
+								class="info">
+								<!-- Post header-->
+								<header
+									class="d-flex justify-content-center align-items-center mb-4 ">
+									<!-- Post title-->
+									<h1 class="fw-bolder mb-1">{{ article.name }}</h1>
+									<button id="toggle-images" class="button_for_images btn btn-info">Afficher les Images</button>
+								</header>
+								<!-- Post content-->
+								<section class="mb-5 description">
+									<p class="fs-5 mb-4">{{article.description}}</p>
+								</section>
+							</div>
+						</article>
+
+						<section
+							class="metaContentAndBadge d-flex gap-5">
+							<!-- Post meta content-->
+							<div class="container_createdAt">
+								<p class="metaContent text-light fst-italic mb-2">Création de l'article</p>
+								<div class="metaContent text-muted fst-italic mb-2">{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</div>
+							</div>
+							<!-- Post categories-->
+							<div class="container_Info_CategorieAndDate">
+								<p class="metaContent text-light fst-italic mb-2">Catégorie</p>
+								<a class="badge bg-secondary text-decoration-none link-light d-flex align-items-center" href="#!">{{article.categories}}</a>
+							</div>
+							<!-- Post meta content-->
+							<div class="container_createdAt">
+								<p class="metaContent text-light fst-italic mb-2">Mise à Jour</p>
+								<div class="metaContent text-muted fst-italic mb-2">{{ article.updateAt ? article.updateAt|date('Y-m-d H:i:s') : '' }}</div>
+							</div>
+						</section>
+						<!-- Comments section-->
+						{% if not app.user %}
+							<!-- Bouton invitant à s'inscrire pour commenter -->
+							<div class="text-center mb-4">
+								<a href="{{ path('app_login') }}" class="btn btn-primary">Enregistrez-vous pour laisser un commentaire</a>
+							</div>
+						{% else %}
+							<!-- Comment form-->
+							<hr>
+							<div class="form_comment">
+								{{ include('comment/_form.html.twig') }}
+							</div>
+							<hr>
+						{% endif %}
+						<div class="commentaires d-flex justify-content-center">
+							<div class="card">
+								<div class="card-body">
+									{% if commentaires|length == 0 %}
+										<div class="d-flex first_comment bg-light">
+											<div class="ms-3">
+												Soyez le premier à laisser un commentaire
+											</div>
+										</div>
+									{% else %}
+										{% for commentaire in commentaires %}
+											<div class="d-flex mb-5">
+												<div class="flex-shrink-0"><img class="rounded-circle" src={{ commentaire.author.avatar }} alt="..."/></div>
+
+												<div class="container_text-comment ms-3">
+													<div class=" comment_info d-flex flex-column">
+														<div class="fw-bold">
+															<div class="fw-light">{{ commentaire.createdAt|date('d-m-y')}}
+															</div>
+															{{ commentaire.author.username }}
+														</div>
+													</div>
+													{{ commentaire.content }}
+												</div>
+											</div>
+										{% endfor %}
+										<div class="pagination">
+											{% for i in 1..totalPages %}
+												<button class="btn btn-info">
+													<a href="{{ path('app_article_show', {'slug': article.slug, 'page': i}) }}">{{ i }}</a>
+												</button>
+											{% endfor %}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</section>
+		<div class='container_button d-flex align-items-center'>
+			<button class="classText btn btn-secondary" type="button">
+				<a href="{{ path('app_home') }}">
+					<i class="fas fa-arrow-left"></i>
+				</a>
+			</button>
+			<button class="classIcon btn btn-secondary" type="button">
+				<a href="{{ path('app_home') }}">
+					<i class="fas fa-arrow-left"></i>
+				</a>
+			</button>
+			{% if is_granted('ROLE_USER') %}
+				{% if app.user == article.author %}
+					<button class=" classText btn btn-warning">
+						<a href="{{ path('app_article_edit', {'slug': article.slug}) }}">
+							<i class="far fa-edit"></i>
+						</a>
+					</button>
+					<button class=" classIcon btn btn-warning">
+						<a href="{{ path('app_article_edit', {'slug': article.slug}) }}">
+							<i class="far fa-edit"></i>
+						</a>
+
+					</button>
+
+					{{ include('article/_delete_form.html.twig') }}
+
+				{% endif %}
+			{% endif %}
+
+		</div>
+	{% endblock %}
+	{% block scripts %}
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+var button = document.getElementById('toggle-images');
+var imagesContainer = document.querySelector('.container-images');
+
+button.addEventListener('click', function () {
+if (imagesContainer.style.display === 'none' || imagesContainer.style.display === '') {
+imagesContainer.style.display = 'flex';
+button.textContent = 'Cacher les Images';
+} else {
+imagesContainer.style.display = 'none';
+button.textContent = 'Afficher les Images';
+}
+});
+});
+		</script>
+	{% endblock %}

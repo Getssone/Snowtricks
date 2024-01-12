@@ -1,0 +1,56 @@
+header {
+  position: relative;
+  max-width: 100vw;
+  max-height: 100vh;
+  height: 100vh;
+  img {
+    max-width: 10rem;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+  }
+  .seeArrow {
+    right: 5%;
+    bottom: 15%;
+    border: 3px solid darkgray;
+    background: fixed whitesmoke;
+    &.down {
+      position: absolute;
+    }
+  }
+}
+.container_card {
+  .card-body {
+    padding: 1rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    .card-title {
+      width: 100%;
+      max-width: 8.5rem;
+      padding-bottom: 1rem;
+    }
+    position: relative;
+    .container_button {
+      z-index: 1;
+      gap: 0.1rem;
+      position: absolute;
+      right: 0.5rem;
+      bottom: -1vh;
+      display: flex;
+      flex-direction: row;
+      button {
+        margin: 0.1rem;
+        &:hover {
+          background: transparent;
+          i {
+            color: inherit;
+          }
+        }
+      }
+      form {
+        display: flex;
+      }
+    }
+  }
+}

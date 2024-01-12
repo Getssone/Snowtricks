@@ -1,0 +1,121 @@
+{% extends "base.html.twig" %}
+{% block title %}SnowTricks 🏂
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/homePage/homePage.css') }}" rel=" stylesheet"/>
+{% endblock %}
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">Apprendre des Tricks Fun</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4">Ici nous sommes des passionées qui cherchons à transmettre notre savoir !</p>
+
+{% endblock %}
+{% block body %}
+	{{parent()}}
+	<main
+		id="sectionMain" class="flex-shrink-0">
+		<!-- Blog preview section-->
+		<section class="py-5">
+			<div class="container_card my-5">
+				<div class="row gx-5 justify-content-center">
+					<div class="col-lg-8 col-xl-6">
+						<div class="text-center">
+							{% for label, messages in app.flashes %}
+								{% for message in messages %}
+									<div class="alert alert-{{ label }}">
+										{{ message }}
+									</div>
+								{% endfor %}
+							{% endfor %}
+							<h2 class="fw-bolder">Nos Articles</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+					{% for article in articles %}
+						<div class=" d-flex align-items-center justify-content-center col">
+							<div class="card h-100 shadow border-0">
+								<a href="{{ path('app_article_show', {'slug': article.slug}) }}">
+									{% if article.mainImageName starts with 'http' %}
+										<img src="{{ article.mainImageName }}" alt="Image depuis une URL">
+									{% elseif asset('uploads/images/' ~ article.mainImageName) is not null %}
+										<img src="{{ asset('uploads/images/' ~ article.mainImageName) }}" alt="Image depuis le dossier asset">
+									{% else %}
+										<p>Source non reconnue</p>
+									{% endif %}
+									<div class="card-body p-4">
+										<div class="text-decoration-none link-dark stretched-link">
+											<h5 class="card-title mb-3">{{ article.name }}</h5>
+										</div>
+										<div class="container_button d-flex align-items-center">
+											{% if is_granted('ROLE_USER') %}
+												{% if app.user == article.author %}
+													<button class=" classText btn btn-warning">
+														<a href="{{ path('app_article_edit', {'slug': article.slug}) }}">
+															<i class="far fa-edit"></i>
+														</a>
+													</button>
+													<button class=" classIcon btn btn-warning">
+														<a href="{{ path('app_article_edit', {'slug': article.slug}) }}">
+															<i class="far fa-edit"></i>
+														</a>
+
+													</button>
+
+													{{ include('article/_delete_form.html.twig') }}
+												{% endif %}
+											{% endif %}
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+					{% else %}
+						<div>Aucune Article trouvé</div>
+
+					{% endfor %}
+				</div>
+				<div class="d-flex align-items-center justify-content-center gap-2">
+					{% if currentPage > 1 %}
+						<div class="text-center mt-4">
+							<a href="{{ path('app_home', {'page': currentPage - 1}) }}" class="btn btn-primary">Précédent</a>
+						</div>
+					{% endif %}
+
+					{% if currentPage < totalPages %}
+						<div class="text-center mt-4">
+							<a href="{{ path('app_home', {'page': currentPage + 1}) }}" class="btn btn-primary">Voir plus d'articles</a>
+						</div>
+					{% endif %}
+				</div>
+				{% if articles|length >= 15 %}
+					<div class="seeArrow up btn btn-outline-dark">
+						<a href="#nav">
+							<i class="fas fa-arrow-up"></i>
+						</a>
+					</div>
+				{% endif %}
+			</section>
+		</main>
+		<!-- Footer-->
+		<footer class="bg-dark py-4 mt-auto">
+			<div class="container px-5">
+				<div class="row align-items-center justify-content-between flex-column flex-sm-row">
+					<div class="col-auto">
+						<div class="small m-0 text-white">Copyright &copy; Getssone 2023</div>
+					</div>
+					<div class="col-auto">
+						<a class="link-light small" href="#!">CGU</a>
+						<span class="text-white mx-1">&middot;</span>
+						<a class="link-light small" href="#!">Contact</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+		{% block javascripts %}
+			<!-- Bootstrap core JS-->
+			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+		{% endblock %}
+	{% endblock %}

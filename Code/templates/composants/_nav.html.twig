@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<div class="container px-5">
+		<a id="nav" class="classText navbar-brand" href="/">🏂</a>
+		<ul class="navbar-nav d-flex ms-auto mb-2 mb-lg-0">
+			<li class="classText nav-item">
+				<a class="nav-link" href="/">
+					Accueil
+				</a>
+			</li>
+			<li class="classIcon nav-item">
+				<a class="nav-link" href="/">
+					<i class="fa-solid fa-house"></i>
+				</a>
+			</li>
+			{% if app.user %}
+
+				<li class="classText nav-item">
+					<a class="nav-link" href="/article/new">
+						Créer une Figure
+					</a>
+				</li>
+				<li class="classIcon nav-item">
+					<a class="nav-link" href="/article/new">
+						<i class="fa-solid fa-pen"></i>
+					</a>
+				</li>
+				<li class="classText nav-item">
+					<a class="nav-link" href="/logout">
+						Déconnexion
+					</a>
+				</li>
+				<li class="classIcon nav-item">
+					<a class="nav-link" href="/logout">
+						<i class="fa-solid fa-right-from-bracket"></i>
+					</a>
+				</li>
+			{% else %}
+				<li class="classText nav-item">
+					<a class="nav-link" href="/sign-in">
+						Inscription
+					</a>
+				</li>
+				<li class="classText nav-item">
+					<a class="nav-link" href="/login">
+						Connexion
+					</a>
+				</li>
+				<li class="classIcon nav-item">
+					<a class="nav-link" href="/sign-in">
+						<i class="fa-solid fa-hands"></i>
+					</a>
+				</li>
+				<li class="classIcon nav-item">
+					<a class="nav-link" href="/login">
+						<i class="fa-solid fa-door-open"></i>
+					</a>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>

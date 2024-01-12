@@ -1,0 +1,32 @@
+{{ form_start(form) }}
+{% if article.mainImageName %}
+	<div class='Info-Image'>
+		Fichier actuel :
+		{% if article.mainImageName starts with 'http' %}
+			<img src="{{ article.mainImageName }}" alt="Image depuis une URL">
+		{% elseif asset('uploads/images/' ~ article.mainImageName) ends with 'tmp' %}
+			<span class="text-secondary-emphasis">Re essaye</span>
+		{% elseif asset('uploads/images/' ~ article.mainImageName) is not null %}
+			<img src="{{ asset('uploads/images/' ~ article.mainImageName) }}" alt="Image depuis le dossier asset">
+		{% else %}
+			<p class="text-secondary-emphasis">Source non reconnue</p>
+		{% endif %}
+
+	</div>
+{% endif %}
+
+{{ form_widget(form) }}
+<button type="button" class="btn btn-dark" id="add-link-button">Ajouter un lien</button>
+<div class="text-secondary-emphasis">
+	Autheur :
+	{{ article.author.username}}</div>
+<button class=" classText btn btn-info">{{ button_label|default('Sauvegarder') }}</button>
+<button class=" classIcon btn btn-info">{{ button_label|default('Sauvegarder') }}</button>
+<button class="classIcon btn btn-info" type="button">
+	{% if button_label is defined %}
+		{{ button_label }}
+	{% else %}
+		<i class="fas fa-plus"></i>
+	{% endif %}
+</button>
+{{ form_end(form) }}

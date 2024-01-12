@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit Image
+{% endblock %}
+{% block stylesheets %}
+	{{parent()}}
+	<link href="{{ asset('css/ShowEditArticle/showEditArticle.css') }}" rel=" stylesheet"/>
+{% endblock %}
+{% block titleHeader %}
+	<h1 class="display-5 fw-bolder text-white mb-2">Edit</h1>
+{% endblock %}
+{% block subtitleHeader %}
+	<p class="lead fw-normal text-white-50 mb-4">Image!</p>
+
+{% endblock %}
+{% block image %}
+	{% if image.file starts with 'http' %}
+		<img src="{{ image.file }}" alt="Image depuis une URL">
+	{% else %}
+		<img src="{{ asset('uploads/images/' ~ image.file) }}" alt="Image depuis le dossier asset">
+	{% endif %}
+{% endblock %}
+{% block body %}
+
+	{{ include('image/_form.html.twig', {'button_label': ('<i class="fas fa-save"></i>')|raw }) }}
+	<pre>
+		{{ dump(image) }}
+	</pre>
+	<div class="d-flex">
+		<button class="classText btn btn-info" type="button">
+			<a href="{{ path('app_home') }}">
+				<i class="fas fa-angle-double-left"></i>
+			</a>
+		</button>
+		<button class="classIcon btn btn-info" type="button">
+			<a href="{{ path('app_home') }}">
+				<i class="fas fa-angle-double-left"></i>
+			</a>
+		</button>
+
+		{{ include('image/_delete_form.html.twig') }}
+	</div>
+{% endblock %}

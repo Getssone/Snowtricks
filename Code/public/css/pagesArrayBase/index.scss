@@ -1,0 +1,16 @@
+.table {
+  color: whitesmoke;
+  td {
+    color: rgb(255, 255, 255, 0.5);
+  }
+  // img {
+  //   max-width: 28rem;
+  //   min-width: 6rem;
+  //   width: 100%;
+  // }
+}
+.container_action {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
