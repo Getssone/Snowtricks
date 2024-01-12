@@ -77,7 +77,6 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Gestion des téléchargements de l'image principal
             $uploadedMainImage = $form->get('mainImageName')->getData();
-            // dd($uploadedMainImage);
             if ($uploadedMainImage !== null) {
                 // Obtenez le nom du fichier d'origine
                 $originalMainImageFilename = $uploadedMainImage->getClientOriginalName();
@@ -189,7 +188,7 @@ class ArticleController extends AbstractController
             }
         }
         // Définir la pagination
-        $pageSize = 2; // Nombre de commentaires par page
+        $pageSize = 6; // Nombre de commentaires par page
         $currentPage = $request->query->get('page', 1);
 
         $queryComments = $commentRepository->createQueryBuilder('c')
@@ -226,19 +225,31 @@ class ArticleController extends AbstractController
         $token = $this->tokenStorage->getToken();
         $user = $token->getUser();
         $oldImage = $article->getMainImageName();
+        $oldName = $article->getName();
+        // Recherchez l'article par slug
 
         // Vérifier si l'utilisateur est l'auteur de l'article
+
         if ($user !== $article->getAuthor()) {
-            // Refuser l'accès
             $this->addFlash('danger', "Vous n'êtes pas autorisé à modifier cet article.");
-            return $this->redirectToRoute('app_article_index');
-        } {
-            $form = $this->createForm(ArticleType::class, $article);
-            $form->handleRequest($request);
-            if ($article) {
-                $article->getAuthor()->getUsername();
-            }
-            if ($form->isSubmitted()) {
+            return $this->redirectToRoute('app_article_edit', ["slug" => $article->getSlug()]);
+        }
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->handleRequest($request);
+        if ($article) {
+            $article->getAuthor()->getUsername();
+        }
+        $existingArticle = $entityManager->getRepository(Article::class)->findOneBy([
+            'name' => $article->getName(),
+        ]);
+        if ($form->isSubmitted()) {
+            // Recherchez un autre article avec le même nom, mais différent de l'article actuel
+            // dump($existingArticle);
+            // dump($article);
+            // dd($existingArticle->getId() ===  $article->getId());
+
+            if ($existingArticle ===  null || $existingArticle->getId() ===  $article->getId()) {
+
                 $uploadedMainImage = $form->get('mainImageName')->getData();
                 if ($uploadedMainImage !== null) {
                     // Obtenez le nom du fichier d'origine
@@ -309,15 +320,19 @@ class ArticleController extends AbstractController
 
                 $this->addFlash('success', "L'article à bien été modifié.");
 
-                return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_home');
+            } else {
+                $article->setMainImageName($oldImage);
+                $article->setName($oldName);
+                $this->addFlash('warning', "Un autre article possède déjà ce nom.");
+                return $this->redirectToRoute('app_article_edit', ["slug" => $article->getSlug()]);
             }
-
-
-            return $this->render('article/edit2.html.twig', [
-                'article' => $article,
-                'form' => $form,
-            ]);
         }
+        // ]);
+        return $this->render('article/edit2.html.twig', [
+            'article' => $article,
+            'form' => $form,
+        ]);
     }
 
     #[IsGranted('ROLE_USER')]

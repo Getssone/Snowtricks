@@ -29,7 +29,7 @@ class LogSecurityController extends AbstractController
             $this->addFlash('error', $errorMessage);
         }
 
-        return $this->render('pages/login.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'custom_error_message' => $errorMessage,]);
+        return $this->render('pages/login.html.twig', ['last_username' => $lastUsername, 'error_message' => $errorMessage,]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]

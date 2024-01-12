@@ -34,47 +34,78 @@ body {
       @media (max-width: 500px) {
         width: 90%;
       }
-      label {
-        font-weight: bold;
-      }
-      input[type="text"],
-      input[type="password"],
-      input[type="email"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-      }
-      input[type="checkbox"] {
-        margin-left: 5px;
-      }
-      .alerte-danger {
-        ul {
-          // list-style: none; // Supprimez la liste par défaut
-          background-color: #f8d7da;
-          color: #721c24;
-          border: 1px solid #f5c6cb;
-          padding: 30px;
-          margin-bottom: 20px;
-        }
-      }
-      button[type="submit"] {
-        background-color: #17a2b8;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-      }
-      button[type="submit"]:hover {
-        background-color: #138496;
-      }
-
       div {
-        margin: 1rem;
+        width: 100%;
+        max-width: 21rem;
+        .mb-3 {
+          label {
+            font-weight: bold;
+          }
+          input[type="text"],
+          input[type="password"],
+          input[type="email"] {
+            width: 100%;
+            max-width: 21rem;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+          }
+          input[type="checkbox"] {
+            margin-left: 5px;
+          }
+          .alerte-danger {
+            ul {
+              // list-style: none; // Supprimez la liste par défaut
+              background-color: #f8d7da;
+              color: #721c24;
+              border: 1px solid #f5c6cb;
+              padding: 30px;
+              margin-bottom: 20px;
+            }
+          }
+        }
+
+        label {
+          font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+          width: 100%;
+          max-width: 21rem;
+          padding: 10px;
+          margin-bottom: 10px;
+          border: 1px solid #ced4da;
+          border-radius: 4px;
+        }
+        input[type="checkbox"] {
+          margin-left: 5px;
+        }
+        .alerte-danger {
+          ul {
+            // list-style: none; // Supprimez la liste par défaut
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 30px;
+            margin-bottom: 20px;
+          }
+        }
+
+        button[type="submit"] {
+          background-color: #17a2b8;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+          background-color: #138496;
+        }
       }
     }
   }

@@ -19,6 +19,7 @@
 				<div class="row gx-5 d-flex align-items-center justify-content-center">
 					<div class="col-lg-9">
 						<article>
+
 							<!-- Preview image figure-->
 							<figure class="mb-4">
 								{% if article.mainImageName starts with 'http' %}
@@ -30,7 +31,6 @@
 										non reconnue</p>
 								{% endif %}
 							</figure>
-
 
 							<div class="container-images">
 
@@ -95,6 +95,10 @@
 
 							</div>
 							<button id="toggle-images" class="button_for_images_edit btn btn-info">Afficher les Images</button>
+							{% for message in app.flashes('warning') %}
+								<div class="alert alert-warning">{{ message }}</div>
+							{% endfor %}
+
 							<div class="info">
 								<form method="post" action="{{ path('app_article_edit', {'slug': article.slug}) }}" enctype="multipart/form-data">
 
@@ -109,6 +113,7 @@
 									<button type="button" class="btn btn-dark" id="add-link-button">Ajouter un lien</button>
 									<!-- Post header-->
 									<header
+
 										class="d-flex justify-content-center align-items-center mb-4 ">
 										<!-- Post title-->
 										<h1 class="fw-bolder mb-1">{{ form_label(form.name) }}
@@ -194,10 +199,10 @@ var imagesContainer = document.querySelector('.container-images');
 button.addEventListener('click', function () {
 if (imagesContainer.style.display === 'none' || imagesContainer.style.display === '') {
 imagesContainer.style.display = 'flex';
-button.textContent = 'Cacher les Images';
+button.textContent = 'Cacher les Médias';
 } else {
 imagesContainer.style.display = 'none';
-button.textContent = 'Afficher les Images';
+button.textContent = 'Afficher les Médias';
 }
 });
 });

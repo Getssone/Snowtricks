@@ -21,17 +21,17 @@
 		{% endfor %}
 		{{ form_errors(registrationForm) }}{{ form_start(registrationForm) }}<div>{{ form_row(registrationForm.email) }}</div>
 		<div>{{ form_row(registrationForm.username, {
-            label: 'profil'
+            label: 'Profil'
         }) }}</div>
 		<div>{{ form_row(registrationForm.plainPassword, {
-            label: 'mot de passe'
+            label: 'Mot de passe'
         }) }}</div>
 		<div>
 			<p>{{ form_row(registrationForm.agreeTerms, {
             label: 'En accord avec les CGU'
         }) }}</p>
 		</div>
-		<button type="submit" class="btn btn-outline-info btn-lg px-4 me-sm-3">Enregistrement</button>
+		<button type="submit" class="btn btn-outline-info btn-lg px-4 me-sm-3">Créer un compte</button>
 		{{ form_end(registrationForm) }}
 	</section>
 {% endblock %}

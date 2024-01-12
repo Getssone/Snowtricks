@@ -39,29 +39,57 @@ body section form {
     width: 90%;
   }
 }
-body section form label {
+body section form div {
+  width: 100%;
+  max-width: 21rem;
+}
+body section form div .mb-3 label {
   font-weight: bold;
 }
-body section form input[type=text],
-body section form input[type=password],
-body section form input[type=email] {
+body section form div .mb-3 input[type=text],
+body section form div .mb-3 input[type=password],
+body section form div .mb-3 input[type=email] {
   width: 100%;
+  max-width: 21rem;
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ced4da;
   border-radius: 4px;
 }
-body section form input[type=checkbox] {
+body section form div .mb-3 input[type=checkbox] {
   margin-left: 5px;
 }
-body section form .alerte-danger ul {
+body section form div .mb-3 .alerte-danger ul {
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
   padding: 30px;
   margin-bottom: 20px;
 }
-body section form button[type=submit] {
+body section form div label {
+  font-weight: bold;
+}
+body section form div input[type=text],
+body section form div input[type=password],
+body section form div input[type=email] {
+  width: 100%;
+  max-width: 21rem;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+body section form div input[type=checkbox] {
+  margin-left: 5px;
+}
+body section form div .alerte-danger ul {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 30px;
+  margin-bottom: 20px;
+}
+body section form div button[type=submit] {
   background-color: #17a2b8;
   color: #fff;
   border: none;
@@ -71,9 +99,6 @@ body section form button[type=submit] {
   font-size: 16px;
   transition: background-color 0.3s ease;
 }
-body section form button[type=submit]:hover {
+body section form div button[type=submit]:hover {
   background-color: #138496;
-}
-body section form div {
-  margin: 1rem;
 }/*# sourceMappingURL=form.css.map */

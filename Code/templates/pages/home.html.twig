@@ -33,7 +33,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+				<div class="row row-cols-1 row-cols-md-5 g-3 g-lg-3">
 					{% for article in articles %}
 						<div class=" d-flex align-items-center justify-content-center col">
 							<div class="card h-100 shadow border-0">
@@ -78,24 +78,25 @@
 					{% endfor %}
 				</div>
 				<div class="d-flex align-items-center justify-content-center gap-2">
-					{% if currentPage > 1 %}
-						<div class="text-center mt-4">
-							<a href="{{ path('app_home', {'page': currentPage - 1}) }}" class="btn btn-primary">Précédent</a>
-						</div>
-					{% endif %}
-
-					{% if currentPage < totalPages %}
-						<div class="text-center mt-4">
-							<a href="{{ path('app_home', {'page': currentPage + 1}) }}" class="btn btn-primary">Voir plus d'articles</a>
-						</div>
-					{% endif %}
-				</div>
-				{% if articles|length >= 15 %}
-					<div class="seeArrow up btn btn-outline-dark">
-						<a href="#nav">
-							<i class="fas fa-arrow-up"></i>
-						</a>
+					{% if currentPage is defined %}
+						{% if currentPage > 1 %}
+							<div class="text-center mt-4">
+								<a href="{{ path('app_home', {'page': currentPage - 1}) }}" class="btn btn-primary">Précédent</a>
+							</div>
+						{% endif %}
+						{% if currentPage < totalPages %}
+							<div class="text-center mt-4">
+								<a href="{{ path('app_home', {'page': currentPage + 1}) }}" class="btn btn-primary">Voir plus d'articles</a>
+							</div>
+						{% endif %}
 					</div>
+					{% if articles|length >= 15 %}
+						<div class="seeArrow up btn btn-outline-dark">
+							<a href="#nav">
+								<i class="fas fa-arrow-up"></i>
+							</a>
+						</div>
+					{% endif %}
 				{% endif %}
 			</section>
 		</main>

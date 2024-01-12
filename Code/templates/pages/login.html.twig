@@ -18,9 +18,8 @@
 		<h1>Connexion</h1>
 		<form method="post">
 			<div>
-				{% if error %}
-					<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-					<div class="alert alert-danger">{{ custom_error_message|trans(error.messageData, 'security') }}</div>
+				{% if error_message %}
+					<div class="alert alert-danger" role="alert">{{ error_message }}</div>
 				{% endif %}
 
 				{% if app.user %}
