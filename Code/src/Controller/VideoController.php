@@ -82,6 +82,7 @@ class VideoController extends AbstractController
                         $uploadedVideo->move($this->getParameter('upload_directory'), $uploadedVideo);
                         $video->setLink($uploadedVideo);
                     } catch (FileException $e) {
+                        $this->addFlash('warning', "le fichier uploadedVideo n'as pas pue être enregistrer.");
                     }
                     $video->setLink($oldVideo);
                 }

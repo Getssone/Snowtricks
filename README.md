@@ -3,7 +3,7 @@
 Création d'un Portfolio-Blog
 
 > Openclassrooms PHP/Symfony developer course project 6 : snowboard community site to learn the Symfony 4 framework.
-> [![Codacy Badge](https://app.codacy.com/project/badge/Grade/16c567b246e54c2badd2806a2f69af2d)](https://app.codacy.com/gh/Getssone/Snowtricks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+> [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7d57dffbe6ef4e25bdf6aa8358fa3187)](https://app.codacy.com/gh/Getssone/Snowtricks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ## Features
 
@@ -114,7 +114,7 @@ Création d'un Portfolio-Blog
 The website must be responsive & secured.
 Code quality assessments done via Codacy.
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/16c567b246e54c2badd2806a2f69af2d)](https://app.codacy.com/gh/Getssone/Snowtricks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7d57dffbe6ef4e25bdf6aa8358fa3187)](https://app.codacy.com/gh/Getssone/Snowtricks/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ### Required UML diagrams
 

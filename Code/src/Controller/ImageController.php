@@ -83,6 +83,7 @@ class ImageController extends AbstractController
                         $uploadedImage->move($this->getParameter('upload_directory'), $originalUploadedImageFilename);
                         $image->setFile($originalUploadedImageFilename);
                     } catch (FileException $e) {
+                        $this->addFlash('warning', "le fichier originalUploadedImageFilename n'as pas pue être enregistrer.");
                     }
                     $image->setFile($originalUploadedImageFilename);
                 }
