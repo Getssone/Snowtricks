@@ -20,8 +20,8 @@
 {% endblock %}
 {% block body %}
 
-	{{ include('video/_form.html.twig', {'button_label': 'Update'}) }}
-	<div class="d-flex">
+	{{ include('video/_form.html.twig',  {'button_label': ('<i class="fas fa-save"></i>')|raw }) }}
+	<div class="d-flex align-items-center">
 
 		<button class="classText btn btn-info" type="button">
 			<a href="{{ path('app_home') }}">

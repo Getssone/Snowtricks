@@ -208,4 +208,14 @@ body .commentaires .container_text-comment .comment_info::after {
 .form_comment form .btn-info {
   width: 2.5rem;
   height: 2.5rem;
+}
+
+button {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0.5rem !important;
+}
+
+.seeArrow {
+  display: none;
 }/*# sourceMappingURL=showEditArticle.css.map */

@@ -16,7 +16,9 @@
 {% endif %}
 
 {{ form_widget(form) }}
-<button type="button" class="btn btn-dark" id="add-link-button">Ajouter un lien</button>
+<button type="button" class="btn btn-dark" id="add-link-button">
+	<i class="fas fa-link"></i>
+</button>
 <div class="text-secondary-emphasis">
 	Autheur :
 	{{ article.author.username}}</div>

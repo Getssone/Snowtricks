@@ -22,10 +22,8 @@
 {% block body %}
 
 	{{ include('image/_form.html.twig', {'button_label': ('<i class="fas fa-save"></i>')|raw }) }}
-	<pre>
-		{{ dump(image) }}
-	</pre>
-	<div class="d-flex">
+
+	<div class="d-flex align-items-center">
 		<button class="classText btn btn-info" type="button">
 			<a href="{{ path('app_home') }}">
 				<i class="fas fa-angle-double-left"></i>

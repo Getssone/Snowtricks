@@ -32,6 +32,7 @@
 								{% endif %}
 							</figure>
 
+
 							<div class="container-images">
 								{% if article.images is not empty %}
 									{% for image in article.images %}
@@ -53,6 +54,13 @@
 
 								{% endif %}
 							</div>
+							{% for label, messages in app.flashes %}
+								{% for message in messages %}
+									<div class="alert alert-{{ label }}">
+										{{ message }}
+									</div>
+								{% endfor %}
+							{% endfor %}
 							<div
 								class="info">
 								<!-- Post header-->
@@ -166,7 +174,6 @@
 						</a>
 
 					</button>
-
 					{{ include('article/_delete_form.html.twig') }}
 
 				{% endif %}

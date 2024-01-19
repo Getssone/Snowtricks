@@ -20,6 +20,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -47,6 +48,28 @@ class ArticleController extends AbstractController
     }
     function verificationForm($form, Article $article)
     {
+
+        $uploadedMainImage = $form->get('mainImageName')->getData();
+        if ($uploadedMainImage !== null) {
+            // Obtenez le nom du fichier d'origine
+            $originalMainImageFilename = $uploadedMainImage->getClientOriginalName();
+
+            if (!$this->mainImageAlreadyExists($article, $originalMainImageFilename)) {
+                // Déplacez le fichier téléchargé vers un répertoire de stockage
+                try {
+                    $uploadedMainImage->move($this->getParameter('upload_directory'), $originalMainImageFilename);
+                } catch (FileException $e) {
+                    $this->addFlash('warning', "le déplacement du fichier échoue.");
+                }
+
+                // Affectez le nom du fichier généré à la propriété "mainImageName" de l'entité Article
+                $article->setMainImageName($originalMainImageFilename);
+            }
+        } else {
+            // Aucun fichier n'est téléchargé, donc conservez l'image principale existante
+            $defaultImagePath = 'composition-point-interrogation-paysage-naturel_23-2150525235.jpg';
+            $article->setMainImageName($defaultImagePath);
+        }
         $uploadedImages = $form->get('images')->getData();
         // Gestion des téléchargements des images $uploadedImages=$form->get('images')->getData();
         foreach ($uploadedImages as $uploadedImage) {
@@ -223,38 +246,17 @@ class ArticleController extends AbstractController
             'name' => $article->getName(),
         ]);
         if ($form->isSubmitted()) {
-            // Recherchez un autre article avec le même nom, mais différent de l'article actuel
-            // dump($existingArticle);
-            // dump($article);
-            // dd($existingArticle->getId() ===  $article->getId());
 
             if ($existingArticle ===  null || $existingArticle->getId() ===  $article->getId()) {
 
+                $this->verificationForm($form, $article);
                 $uploadedMainImage = $form->get('mainImageName')->getData();
-                if ($uploadedMainImage !== null) {
-                    // Obtenez le nom du fichier d'origine
-                    $originalMainImageFilename = $uploadedMainImage->getClientOriginalName();
-
-                    if (!$this->mainImageAlreadyExists($article, $originalMainImageFilename)) {
-                        // Déplacez le fichier téléchargé vers un répertoire de stockage
-                        try {
-                            $uploadedMainImage->move($this->getParameter('upload_directory'), $originalMainImageFilename);
-                        } catch (FileException $e) {
-                            $this->addFlash('warning', "le déplacement du fichier échoue.");
-                        }
-
-                        // Affectez le nom du fichier généré à la propriété "mainImageName" de l'entité Article
-                        $article->setMainImageName($originalMainImageFilename);
-                    }
-                } else {
-                    // Aucun fichier n'est téléchargé, donc conservez l'image principale existante
-                    $defaultImagePath = 'composition-point-interrogation-paysage-naturel_23-2150525235.jpg';
-                    $article->setMainImageName($defaultImagePath);
+                // dd($uploadedMainImage->getClientOriginalName());
+                if ($uploadedMainImage ===  null || $uploadedMainImage !==  null && $uploadedMainImage->getClientOriginalName() ===  "composition-point-interrogation-paysage-naturel_23-2150525235") {
+                    $article->setMainImageName($oldImage);
                 }
 
 
-
-                $this->verificationForm($form, $article);
                 $article->updateTimestamps();
                 // Gestion de l'enregistrement dans la Bdd 
                 $entityManager->persist($article);
@@ -270,7 +272,6 @@ class ArticleController extends AbstractController
                 return $this->redirectToRoute('app_article_edit', ["slug" => $article->getSlug()]);
             }
         }
-        // ]);
         return $this->render('article/edit2.html.twig', [
             'article' => $article,
             'form' => $form,
@@ -278,13 +279,15 @@ class ArticleController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/{slug}', name: 'app_article_delete', methods: ['POST'])]
+    #[Route('/{slug}/deleted', name: 'app_article_delete')]
     public function delete(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
+
         if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             $this->addFlash('warning', "L'article à bien été supprimé.");
             $entityManager->remove($article);
             $entityManager->flush();
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->redirectToRoute('app_home');
